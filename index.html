@@ -1,0 +1,300 @@
+<!-- Standalone HTML/CSS/JS — Fashionista Landing Page -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Fashionista — Curated Style</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#f7f6f5;
+      --accent:#ff6b81;
+      --muted:#6b7280;
+      --card:#ffffff;
+      --glass: rgba(255,255,255,0.7);
+      --shadow: 0 6px 18px rgba(16,24,40,0.08);
+      --radius:16px;
+      --container:1200px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+      background:linear-gradient(180deg,var(--bg),#fff);
+      color:#111827;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.45;
+    }
+
+    .container{max-width:var(--container);margin:0 auto;padding:28px}
+
+    /* Header */
+    header{display:flex;align-items:center;justify-content:space-between;gap:18px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--accent),#ffd166);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-family:'Playfair Display',serif;font-size:20px;box-shadow:var(--shadow)}
+    nav.desktop{display:flex;gap:18px;align-items:center}
+    nav.desktop a{color:var(--muted);text-decoration:none;font-weight:600}
+    nav.desktop a:hover{color:#111}
+    .cta{background:#111;color:white;padding:10px 14px;border-radius:12px;font-weight:700;border:none;cursor:pointer}
+
+    /* Mobile */
+    .hambtn{display:none;background:transparent;border:1px solid rgba(0,0,0,0.06);padding:8px;border-radius:10px}
+
+    /* Hero */
+    .hero{display:grid;grid-template-columns:1fr 520px;gap:36px;align-items:center;padding:48px 0}
+    .kicker{color:var(--accent);font-weight:700;letter-spacing:1px;font-size:13px}
+    h1{font-family:'Playfair Display',serif;font-size:44px;margin:12px 0}
+    p.lead{color:var(--muted);max-width:56ch}
+    .hero-actions{display:flex;gap:12px;margin-top:18px}
+    .btn-outline{padding:12px 16px;border-radius:12px;border:1px solid rgba(0,0,0,0.08);background:transparent;cursor:pointer}
+
+    .hero-card{background:var(--card);border-radius:20px;padding:10px;box-shadow:var(--shadow);position:relative}
+    .hero-card img{width:100%;height:640px;object-fit:cover;border-radius:12px}
+    .tag{position:absolute;left:20px;bottom:26px;background:var(--glass);backdrop-filter:blur(6px);padding:10px 14px;border-radius:12px;border:1px solid rgba(255,255,255,0.6)}
+
+    /* Features */
+    .features{display:flex;gap:18px;margin-top:28px}
+    .feature{background:var(--card);padding:14px;border-radius:14px;flex:1;box-shadow:var(--shadow);display:flex;gap:12px;align-items:center}
+    .feature .icon{width:56px;height:56px;border-radius:10px;background:linear-gradient(135deg,#ffd166,#ff6b81);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700}
+
+    /* Products */
+    .section-title{display:flex;align-items:center;justify-content:space-between}
+    .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:18px}
+    .card{background:var(--card);border-radius:14px;padding:12px;box-shadow:var(--shadow);overflow:hidden}
+    .card img{width:100%;height:300px;object-fit:cover;border-radius:10px}
+    .meta{display:flex;justify-content:space-between;align-items:center;margin-top:10px}
+    .price{font-weight:700}
+
+    /* Footer */
+    footer{margin-top:48px;padding:28px 0;color:var(--muted);display:flex;justify-content:space-between;align-items:center}
+
+    /* Responsive */
+    @media (max-width:1024px){
+      .grid{grid-template-columns:repeat(2,1fr)}
+      .hero{grid-template-columns:1fr 380px}
+      .hero-card img{height:520px}
+    }
+    @media (max-width:720px){
+      header{padding:12px 0}
+      .container{padding:18px}
+      nav.desktop{display:none}
+      .hambtn{display:block}
+      .hero{grid-template-columns:1fr;gap:18px}
+      .hero-card img{height:420px}
+      .grid{grid-template-columns:1fr}
+      h1{font-size:34px}
+    }
+
+    /* Modal */
+    .modal{position:fixed;inset:0;background:rgba(2,6,23,0.5);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:all .2s}
+    .modal.open{opacity:1;pointer-events:auto}
+    .modal .sheet{background:var(--card);padding:20px;border-radius:12px;max-width:920px;width:95%;box-shadow:0 30px 60px rgba(2,6,23,0.35)}
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="brand">
+        <div class="logo">F</div>
+        <div>
+          <div style="font-weight:700">Fashionista</div>
+          <div style="font-size:12px;color:var(--muted)">Curated style for everyday</div>
+        </div>
+      </div>
+
+      <nav class="desktop" aria-label="Main Navigation">
+        <a href="#collections">Collections</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+        <button class="cta" onclick="location.hash='shop'">Shop</button>
+      </nav>
+
+      <button class="hambtn" id="menuBtn" aria-label="Open menu">☰</button>
+    </header>
+
+    <!-- Mobile menu -->
+    <div id="mobileMenu" style="display:none;margin-top:12px;background:var(--card);padding:12px;border-radius:12px;box-shadow:var(--shadow)">
+      <a href="#collections" style="display:block;padding:8px 0;color:var(--muted);text-decoration:none">Collections</a>
+      <a href="#about" style="display:block;padding:8px 0;color:var(--muted);text-decoration:none">About</a>
+      <a href="#contact" style="display:block;padding:8px 0;color:var(--muted);text-decoration:none">Contact</a>
+    </div>
+
+    <main>
+      <section class="hero">
+        <div>
+          <div class="kicker">New season</div>
+          <h1>Effortless elegance — reimagined for you</h1>
+          <p class="lead">Discover effortlessly wearable pieces crafted from premium materials. Designed with comfort, silhouette and everyday versatility in mind.</p>
+
+          <div class="hero-actions">
+            <button class="cta" onclick="document.getElementById('collections').scrollIntoView({behavior:'smooth'})">Shop the Collection</button>
+            <button class="btn-outline" onclick="openLookbook()">Explore Lookbook</button>
+          </div>
+
+          <div class="features" style="margin-top:22px">
+            <div class="feature">
+              <div class="icon">🚚</div>
+              <div>
+                <div style="font-weight:700">Free shipping</div>
+                <div style="font-size:13px;color:var(--muted)">On orders over ₦20,000</div>
+              </div>
+            </div>
+            <div class="feature">
+              <div class="icon">🧵</div>
+              <div>
+                <div style="font-weight:700">Premium fabrics</div>
+                <div style="font-size:13px;color:var(--muted)">Sustainably sourced</div>
+              </div>
+            </div>
+            <div class="feature">
+              <div class="icon">⭐</div>
+              <div>
+                <div style="font-weight:700">Hand-picked</div>
+                <div style="font-size:13px;color:var(--muted)">Limited quantities</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="hero-card">
+<img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fGZhc2hpb24lMjBkcmVzc3xlbnwwfHwwfHx8MA%3D%3D" alt="">
+            <div class="tag">
+              <div style="font-size:12px;color:var(--muted)">Editor's pick</div>
+              <div style="font-weight:700;margin-top:4px">Aurelia Satin Dress</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Collections -->
+      <section id="collections" style="margin-top:36px">
+        <div class="section-title">
+          <h2 style="margin:0;font-size:22px">Featured Collection</h2>
+        </div>
+
+        <div class="grid" id="productGrid">
+          <!-- cards inserted by JS -->
+        </div>
+      </section>
+
+      <!-- About -->
+      <section id="about" style="margin-top:44px;background:linear-gradient(180deg,rgba(255,255,255,0.7),transparent);padding:22px;border-radius:16px">
+        <div style="display:flex;gap:20px;align-items:center;flex-wrap:wrap">
+          <img src="https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&s=2" alt="atelier" style="width:300px;height:220px;object-fit:cover;border-radius:12px;flex:0 0 300px;box-shadow:var(--shadow)">
+          <div style="flex:1;min-width:240px">
+            <h3 style="margin-top:0;font-size:20px;font-family:'Playfair Display',serif">Our Story</h3>
+            <p style="color:var(--muted)">Fashionista started with a simple idea: clothes should feel as good as they look. We partner with local artisans and thoughtful mills to bring you pieces made to last — cuts that flatter, fabrics that hold up, and designs that feel modern yet timeless.</p>
+            <p style="color:var(--muted);margin-top:8px">We deliver across Nigeria and offer easy returns within 14 days.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact -->
+      <section id="contact" style="margin-top:32px">
+        <h3 style="margin-bottom:8px">Get in touch</h3>
+        <p>phone number : 123-456-789</p>
+        </form>
+      </section>
+
+    </main>
+
+    <footer>
+      <div style="font-weight:600">© Fashionista</div>
+      <div style="color:var(--muted);font-size:13px">Built with ♥ love — customizable and framework-free.</div>
+    </footer>
+  </div>
+
+  <!-- Modal for product quick view -->
+  <div id="modal" class="modal" aria-hidden="true">
+    <div class="sheet">
+      <div style="display:flex;gap:18px;align-items:flex-start">
+        <img id="modalImg" src="" alt="" style="width:320px;height:420px;object-fit:cover;border-radius:10px;flex:0 0 320px">
+        <div style="flex:1">
+          <h3 id="modalTitle" style="margin-top:0"></h3>
+          <div id="modalPrice" style="font-weight:700;margin-top:6px"></div>
+          <p id="modalDesc" style="color:var(--muted);margin-top:12px"></p>
+          <div style="margin-top:18px;display:flex;gap:10px">
+            <button class="cta">Add to cart</button>
+            <button class="btn-outline" onclick="closeModal()">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Mobile menu
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    menuBtn.addEventListener('click', ()=>{
+      mobileMenu.style.display = mobileMenu.style.display === 'none' ? 'block' : 'none';
+    });
+
+    // Products data (replace or expand as needed)
+    const products = [
+      {id:1,title:'Aurelia Satin Dress',price:' Abuja',img:'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fGZhc2hpb24lMjBkcmVzc3xlbnwwfHwwfHx8MA%3D%3D',desc:'Elegant satin midi dress with soft drape and adjustable straps.'},
+      {id:2,title:'Marin Trench Coat',price:' Abuja',img:'https://images.unsplash.com/photo-1660996702358-22f0377a3f36?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8bWVuJTIwZmFzaGlvbiUyMGRyZXNzfGVufDB8fDB8fHww',desc:'Classic tailored trench in a modern cut with contrast lining.'},
+      {id:3,title:'Linea Knit Top',price:' Abuja',img:'https://images.unsplash.com/photo-1635447272975-15e89512725a?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjN8fGZhc2hpb24lMjBkcmVzc3xlbnwwfHwwfHx8MA%3D%3D',desc:'Soft knit top with flattering rib pattern and fitted silhouette.'},
+      {id:4,title:'Solano Wide Pants',price:' Abuja',img:'https://images.unsplash.com/photo-1635447272203-92e6fdf27245?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mjd8fGZhc2hpb24lMjBkcmVzc3xlbnwwfHwwfHx8MA%3D%3D',desc:'High-waisted wide leg pants crafted from breathable fabric.'},
+      {id:5,title:'Bela Slip Skirt',price:' Abuja',img:'https://images.unsplash.com/photo-1635447272203-92e6fdf27245?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mjd8fGZhc2hpb24lMjBkcmVzc3xlbnwwfHwwfHx8MA%3D%3D',desc:'Silky slip skirt that moves beautifully and pairs with anything.'},
+      {id:6,title:'Ciro Blazer',price:' Abuja',img:'https://images.unsplash.com/photo-1635447272615-a414b7ea1df4?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mjh8fGZhc2hpb24lMjBkcmVzc3xlbnwwfHwwfHx8MA%3D%3D',desc:'Structured blazer with soft shoulder and tailored silhouette.'},
+      {id:7,title:'Mira Linen Shirt',price:'Abuja',img:'https://plus.unsplash.com/premium_photo-1673977132933-2a028c2f05a8?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MzN8fGZhc2hpb24lMjBkcmVzc3xlbnwwfHwwfHx8MA%3D%3D',desc:'Breathable linen shirt for warm days and smart-casual looks.'},
+      {id:8,title:'Nero Heels',price:' Abuja',img:'https://images.unsplash.com/photo-1727772664853-47945be8757c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDB8fGZhc2hpb24lMjBkcmVzc3xlbnwwfHwwfHx8MA%3D%3D',desc:'Minimalist block heels with comfortable cushioning.'}
+    ];
+
+    const grid = document.getElementById('productGrid');
+    function renderProducts(){
+      grid.innerHTML = '';
+      products.forEach(p=>{
+        const el = document.createElement('div');
+        el.className = 'card';
+        el.innerHTML = `
+          <img src="${p.img}" alt="${p.title}">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px">
+            <div>
+              <div style="font-weight:700">${p.title}</div>
+              <div style="font-size:13px;color:var(--muted)">New</div>
+            </div>
+            <div style="text-align:right">
+              <div class="price">${p.price}</div>
+              <button class="btn-outline" style="margin-top:8px" onclick="openModal(${p.id})">Quick view</button>
+            </div>
+          </div>
+        `;
+        grid.appendChild(el);
+      });
+    }
+
+    function openLookbook(){
+      alert('Lookbook coming soon — I can add a gallery page if you want!')
+    }
+
+    // Modal handlers
+    const modal = document.getElementById('modal');
+    function openModal(id){
+      const p = products.find(x=>x.id===id);
+      if(!p) return;
+      document.getElementById('modalImg').src = p.img;
+      document.getElementById('modalTitle').textContent = p.title;
+      document.getElementById('modalPrice').textContent = p.price;
+      document.getElementById('modalDesc').textContent = p.desc;
+      modal.classList.add('open');
+      modal.setAttribute('aria-hidden','false');
+    }
+    function closeModal(){
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden','true');
+    }
+    modal.addEventListener('click',(e)=>{ if(e.target===modal) closeModal(); })
+
+    // Initialize
+    renderProducts();
+  </script>
+</body>
+</html>
